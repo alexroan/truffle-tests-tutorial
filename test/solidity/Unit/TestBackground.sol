@@ -8,8 +8,9 @@ contract TestBackground {
 
     Background public background;
 
+    // Run before every test function
     function beforeEach() public {
-        background = Background(DeployedAddresses.Background());
+        background = new Background();
     }
 
     // Test that it stores a value correctly
@@ -22,19 +23,17 @@ contract TestBackground {
 
     // Test that it gets the correct number of values
     function testItGetsCorrectNumberOfValues() public {
-        uint currentSize = background.getNumberOfValues();
         background.storeValue(99);
         uint newSize = background.getNumberOfValues();
-        Assert.equal(newSize, currentSize + 1, "It should increase the size");
+        Assert.equal(newSize, 1, "It should increase the size");
     }
 
     // Test that it stores multiple values correctly
     function testItStoresMultipleValues() public {
-        uint currentSize = background.getNumberOfValues();
         for (uint8 i = 0; i < 10; i++) {
             uint value = i;
             background.storeValue(value);
-            uint result = background.getValue(i + currentSize);
+            uint result = background.getValue(i);
             Assert.equal(result, value, "It should store the correct value for multiple values");
         }
     }
