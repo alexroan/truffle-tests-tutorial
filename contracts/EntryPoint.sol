@@ -3,18 +3,22 @@ pragma solidity >=0.5.0;
 import "./Background.sol";
 
 contract EntryPoint {
-    Background public background;
+    address public backgroundAddress;
 
     constructor(address _background) public{
-        background = Background(_background);
+        backgroundAddress = _background;
+    }
+
+    function getBackgroundAddress() public view returns (address) {
+        return backgroundAddress;
     }
 
     function storeTwoValues(uint first, uint second) public {
-        background.storeValue(first);
-        background.storeValue(second);
+        Background(backgroundAddress).storeValue(first);
+        Background(backgroundAddress).storeValue(second);
     }
 
     function getNumberOfValues() public view returns (uint) {
-        return background.getNumberOfValues();
+        return Background(backgroundAddress).getNumberOfValues();
     }
 }
